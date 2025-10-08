@@ -16,12 +16,21 @@
       {
         "command": "easyconsolelogs.logSelected",
         "title": "Insert Debug Log"
+      },
+      {
+        "command": "easyconsolelogs.deleteSingleFileLog",
+        "title": "Delete Debug Log single"
       }
     ],
     "keybindings": [
       {
         "command": "easyconsolelogs.logSelected",
         "key": "ctrl+shift+l",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "easyconsolelogs.deleteSingleFileLog",
+        "key": "ctrl+shift+d",
         "when": "editorTextFocus"
       }
     ]

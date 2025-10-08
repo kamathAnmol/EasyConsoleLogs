@@ -49,6 +49,73 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  const deleteSingleFileV2 = vscode.commands.registerCommand(
+    "easyconsolelogs.deleteSingleFileLog",
+    async () => {
+      console.log("Called inside the delete single file log");
+      
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) {
+        vscode.window.showErrorMessage("No active editor found!");
+        return;
+      }
+      const document = editor.document;
+      let allText = document.getText()
+      const logPattern = /console\.log\(\s*"👾.*",\s*.*\s*\);?\n?/g;
+      allText = allText.replaceAll(logPattern,'')
+      
+      await editor.edit((editBuilder)=>{
+        editBuilder.replace(new vscode.Range(document.positionAt(0),document.positionAt(document.getText().length)),allText)
+      })
+      vscode.window.showInformationMessage(`Matched Log "${allText}"`);
+      
+    }
+  );
+
+  const deleteSingleFile = vscode.commands.registerCommand(
+  "easyconsolelogs.deleteSingleFileLog",
+  async () => {
+    console.log("Called inside the delete single file log");
+    
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+      vscode.window.showErrorMessage("No active editor found!");
+      return;
+    }
+    const document = editor.document;
+    
+    const logPattern = /console\.log\(\s*"👾.*",\s*.*\s*\);?\s*$/;
+    const linesToDelete: number[] = [];
+    
+    // Find all matching lines
+    for (let i = 0; i < document.lineCount; i++) {
+      const line = document.lineAt(i);
+      if (logPattern.test(line.text)) {
+        linesToDelete.push(i);
+      }
+    }
+    
+    if (linesToDelete.length === 0) {
+      vscode.window.showInformationMessage("No matching console.log statements found");
+      return;
+    }
+    
+    // Delete lines in reverse order to maintain line indices
+    await editor.edit((editBuilder) => {
+      for (let i = linesToDelete.length - 1; i >= 0; i--) {
+        const lineNumber = linesToDelete[i];
+        const line = document.lineAt(lineNumber);
+        editBuilder.delete(line.rangeIncludingLineBreak);
+      }
+    });
+    
+    vscode.window.showInformationMessage(
+      `Deleted ${linesToDelete.length} console.log statement(s)`
+    );
+  }
+);
+
+
   const logIdentifier = vscode.commands.registerCommand(
     "easyconsolelogs.setLogIdentifier",
     async () => {
@@ -68,7 +135,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  context.subscriptions.push(logSelected);
+  context.subscriptions.push(logSelected,deleteSingleFile);
 }
 
 /**
