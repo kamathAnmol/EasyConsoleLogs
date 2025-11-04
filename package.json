@@ -6,11 +6,13 @@
   "engines": {
     "vscode": "^1.104.0"
   },
+  "publisher": "CoachKukran",
   "categories": [
     "Other"
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
+  "repository": "https://github.com/kamathAnmol/EasyConsoleLogs",
   "contributes": {
     "commands": [
       {
