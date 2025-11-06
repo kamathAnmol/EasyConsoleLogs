@@ -34,7 +34,7 @@ function greet() {
     editor.selection = new vscode.Selection(line, startChar, line, endChar);
 
     // Execute your extension command
-    await vscode.commands.executeCommand("easyconsolelogs.logSelected");
+    await vscode.commands.executeCommand("ezlogs.logSelected");
 
     // Get the updated text
     const updatedText = document.getText();
@@ -82,7 +82,7 @@ function sum(a: number, b: number) {
     };
 
     // Execute the command
-    await vscode.commands.executeCommand("easyconsolelogs.logSelected");
+    await vscode.commands.executeCommand("ezlogs.logSelected");
 
     // Restore original
     vscode.window.showErrorMessage = originalShowErrorMessage;

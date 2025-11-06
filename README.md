@@ -1,4 +1,4 @@
-# easyconsolelogs README
+# ezlogs README
 
 Debug mad easy with the help of the easy console logs
 
